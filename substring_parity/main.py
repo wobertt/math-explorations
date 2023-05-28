@@ -8,7 +8,23 @@ strings s of length i.
 How is M(i) related to ai from part (a)? Prove your answer.
 """
 import itertools
+from math import ceil
 
+# Best Results
+def count_odd_fast(s: str): # O(n) time, O(1) space!
+    prefix = 0
+    is_odd = False
+    for c in s:
+        is_odd ^= (c == '1')
+        prefix += is_odd
+    return prefix * (len(s) - prefix + 1)
+
+
+def find_max_odd_fast(n: int): # Proven!
+    return ceil(n/2) * ceil((n+1)/2)
+
+
+# Experimenting
 
 def generate_binary_strings(n: int):
     return itertools.product('01', repeat=n)
@@ -25,21 +41,12 @@ def count_odd_slow(s: str): # O(n^2)
     return ans
 
 
+
 def find_max_odd(n: int): # O(2^n * count_odd(n))
     ans = 0
     for s in generate_binary_strings(n):
         ans = max(ans, count_odd_slow(s))
     return ans
-
-
-def find_max_odd_fast(n: int): # O(n), correctness unproven
-    a_i = 0
-    ans = 0
-    for i in range(1, n+1):
-        a_i = i - a_i
-        ans += a_i
-    return ans
-
 
 
 def find_strings_with_count(n: int, cnt: int):
@@ -49,10 +56,17 @@ def find_strings_with_count(n: int, cnt: int):
 
 
 def main():
-    n = 6
-    ans = find_max_odd_fast(n)
-    print(ans)
-    find_strings_with_count(n, ans)
+    N = 7
+    mmap = {i*(N-i+1): i for i in range(0, (N+1)//2+1)}
+    results = []
+    print(mmap)
+
+    for s in generate_binary_strings(N):
+        ans = count_odd_slow(s)
+        print(''.join(s), mmap[ans], ans)
+        results.append(mmap[ans])
+    # print(results[::2])
+    # print(results[1::4])
 
 
 main()
