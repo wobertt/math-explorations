@@ -67,12 +67,7 @@ def get_worst_cases_up_to(n):
     
 
 def test():
-    lang = (
-        '0000', '00000', '00001', '00010', '00011', '0010', '00100', '00110', '0100', '01001', '01011', '01100', '10001', '10110', '11011', '11100', '11101'
-    )
-
-    lang = tuple('0'+s for s in lang) + tuple('1'+s for s in lang) + tuple('1'+''.join(s) for s in it.product('01', repeat=3))
-
+    lang = ('00', '000', '010', '011', '100', '111')
     lang = tuple(tuple(s) for s in lang)
     n = max(len(s) for s in lang)
 
@@ -81,6 +76,9 @@ def test():
 
 """
 Worst cases:
+n=3 (9):
+lang = ('00', '000', '010', '011', '100', '111')
+
 n=4 (15):
 lang = ('000', '0010', '010', '0100', '0111', '100', '1001', '1010', '1011', '110', '1100', '1101')
 
@@ -91,8 +89,21 @@ n=6 (39):
 '00000' '10010' '1001' '1010' '100110' '000000' '011011' '101100' '001011' '010001' '011100' '000011' '1110' '100010' '101011' '1000' '1101' '100001' '10000' '000110' '00010' '100100' '111011' '111101' '000010' '110001' '00100' '10100' '001001' '1011' '110110' '100000' '000001' '1100' '101001' '011101' '001100' '111100' '010110' '1111' '000100' '100011'
 """
 
+def profiler():
+    import cProfile
+    import pstats
+
+    with cProfile.Profile() as pr:
+        get_worst_case(3)
+    
+    stats = pstats.Stats(pr)
+    stats.sort_stats(pstats.SortKey.TIME)
+    stats.print_stats()
+
+
 if __name__ == '__main__':
     test()
+    # profiler()
     # get_worst_case(5)
     # get_worst_cases_up_to(5)
     
