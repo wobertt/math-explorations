@@ -13,7 +13,7 @@ you make your choice. He then offers you the choice of switching to one of the u
 """
 
 import random
-from typing import Callable
+from typing import Callable, Tuple
 
 NUM_TRIALS = 100000
 
@@ -24,7 +24,7 @@ def choose_random_door(doors: list[str]) -> str:
     return choice
 
 
-def simulate_game(strategy: str) -> (str, str):
+def simulate_game(strategy: str) -> Tuple[str, str]:
     doors = ["goat", "goat", "car", "car"]
 
     your_choice = choose_random_door(doors)
